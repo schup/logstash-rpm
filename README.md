@@ -11,6 +11,16 @@ Tries to follow the [Java packaging guidelines](https://fedoraproject.org/wiki/P
 * init script
 * Running as user logstash in group logstash
 
+Build
+-----
+```
+git clone http://.../logstash-rpm
+make
+```
+
+This will build the RPM in the directory of the checked out project.
+
+
 Acknowledgments
 ---------------
 
