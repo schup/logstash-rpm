@@ -1,5 +1,6 @@
-%define debug_package %{nil}_bindir}
+%define debug_package %{nil}
 %define base_install_dir %{_javadir}{%name}
+%define __jar_repack %{nil}
 
 %global bindir %{_bindir}
 %global confdir %{_sysconfdir}/%{name}
@@ -11,14 +12,14 @@
 %global sysconfigdir %{_sysconfdir}/sysconfig
 
 Name:           logstash
-Version:        1.1.13
+Version:        1.2.2
 Release:        1%{?dist}
 Summary:        A tool for managing events and logs
 
 Group:          System Environment/Daemons
 License:        ASL 2.0
 URL:            http://logstash.net
-Source0:        https://logstash.objects.dreamhost.com/release/%{name}-%{version}-flatjar.jar
+Source0:        https://download.elasticsearch.org/logstash/logstash/%{name}-%{version}-flatjar.jar
 Source1:        logstash.wrapper
 Source2:        logstash.logrotate
 Source3:        logstash.init
@@ -53,6 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{plugindir}/inputs
 %{__mkdir} -p %{buildroot}%{plugindir}/filters
 %{__mkdir} -p %{buildroot}%{plugindir}/outputs
+# This is needed because Logstash will complain if there are no *.rb
+# files in its Plugin directory
+/bin/touch %{buildroot}%{plugindir}/inputs/dummy.rb
 
 # Wrapper script
 %{__mkdir} -p %{buildroot}%{_bindir}
@@ -130,6 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{plugindir}/inputs
 %dir %{plugindir}/filters
 %dir %{plugindir}/outputs
+%{plugindir}/inputs/dummy.rb
 
 # Wrapper script
 %{bindir}/*
@@ -146,15 +151,23 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{piddir}/
 
 %changelog
+* Mon Oct 28 2013 lars.francke@gmail.com 1.2.2-1
+- Update logstash version to 1.2.2
+- Change default log level from WARN to INFO
+
 * Wed Jun 12 2013 lars.francke@gmail.com 1.1.13-1
-* Update logstash version to 1.1.13
+- Update logstash version to 1.1.13
+
 * Thu May 09 2013 dmaher@mozilla.com 1.1.12-1
 - Update logstash version to 1.1.12
+
 * Thu Apr 25 2013 dmaher@mozilla.com 1.1.10-1
 - Use flatjar instead of monolithic
 - Update logstash version to 1.1.10
+
 * Tue Jan 22 2013 dmaher@mozilla.com 1.1.9-1
 - Add chkconfig block to init
 - Update logstash version to 1.1.9
+
 * Tue Jan 11 2013 lars.francke@gmail.com 1.1.5-1
 - Initial version
