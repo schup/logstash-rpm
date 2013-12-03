@@ -27,7 +27,7 @@ Source4:        logstash.sysconfig
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-Requires:       jre7
+Requires:       jre
 Requires:       jpackage-utils
 
 Requires(post): chkconfig initscripts
