@@ -154,6 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Dec 11 2013 lars.francke@gmail.com 1.2.2-2
 - Fixed reference to removed jre7 package
 - Fixed rpmlint warning about empty dummy.rb file
+- Fixes stderr output not being captured in logfile
 
 * Mon Oct 28 2013 lars.francke@gmail.com 1.2.2-1
 - Update logstash version to 1.2.2
