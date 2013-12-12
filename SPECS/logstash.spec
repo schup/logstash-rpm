@@ -14,7 +14,7 @@
 
 Name:           logstash
 Version:        1.2.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A tool for managing events and logs
 
 Group:          System Environment/Daemons
