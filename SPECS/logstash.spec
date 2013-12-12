@@ -13,8 +13,8 @@
 %global sysconfigdir %{_sysconfdir}/sysconfig
 
 Name:           logstash
-Version:        1.2.2
-Release:        2%{?dist}
+Version:        1.3.1
+Release:        1%{?dist}
 Summary:        A tool for managing events and logs
 
 Group:          System Environment/Daemons
@@ -28,7 +28,7 @@ Source4:        logstash.sysconfig
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 
-Requires:       jre
+Requires:       java-1.7.0-openjdk
 Requires:       jpackage-utils
 
 Requires(post): chkconfig initscripts
@@ -156,6 +156,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{homedir}/
 
 %changelog
+* Thu Dec 12 2013 lars.francke@gmail.com 1.3.1-1
+- Update logstash to version 1.3.1
+- Fixed Java version to 1.7 as 1.5 does not work
+
 * Wed Dec 11 2013 lars.francke@gmail.com 1.2.2-2
 - Fixed reference to removed jre7 package
 - Fixed rpmlint warning about empty dummy.rb file
