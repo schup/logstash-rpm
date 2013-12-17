@@ -56,7 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{plugindir}/outputs
 # This is needed because Logstash will complain if there are no *.rb
 # files in its Plugin directory
-/bin/touch %{buildroot}%{plugindir}/inputs/dummy.rb
+/bin/echo "Dummy file due to https://logstash.jira.com/browse/LOGSTASH-1555" >  %{buildroot}%{plugindir}/inputs/dummy.rb
 
 # Wrapper script
 %{__mkdir} -p %{buildroot}%{_bindir}
@@ -151,6 +151,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{piddir}/
 
 %changelog
+* Wed Dec 11 2013 lars.francke@gmail.com 1.2.2-2
+- Fixed reference to removed jre7 package
+- Fixed rpmlint warning about empty dummy.rb file
+- Fixes stderr output not being captured in logfile
+
 * Mon Oct 28 2013 lars.francke@gmail.com 1.2.2-1
 - Update logstash version to 1.2.2
 - Change default log level from WARN to INFO
