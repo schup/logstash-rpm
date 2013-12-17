@@ -4,6 +4,7 @@
 
 %global bindir %{_bindir}
 %global confdir %{_sysconfdir}/%{name}
+%global homedir %{_sharedstatedir}/%{name}
 %global jarpath %{_javadir}
 %global lockfile %{_localstatedir}/lock/subsys/%{name}
 %global logdir %{_localstatedir}/log/%{name}
@@ -98,6 +99,10 @@ rm -rf $RPM_BUILD_ROOT
    -e "s|@@@PLUGINDIR@@@|%{_datadir}|g" \
    %{buildroot}%{sysconfigdir}/%{name}
 
+# Create Home directory
+#   See https://github.com/lfrancke/logstash-rpm/issues/5
+%{__mkdir} -p %{buildroot}%{homedir}
+
 %pre
 # create logstash group
 if ! getent group logstash >/dev/null; then
@@ -150,11 +155,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{logdir}/
 %dir %{piddir}/
 
+# Home directory
+%dir %{homedir}/
+
 %changelog
 * Wed Dec 11 2013 lars.francke@gmail.com 1.2.2-2
 - Fixed reference to removed jre7 package
 - Fixed rpmlint warning about empty dummy.rb file
 - Fixes stderr output not being captured in logfile
+- Fixed home directory location (now in /var/lib/logstash)
 
 * Mon Oct 28 2013 lars.francke@gmail.com 1.2.2-1
 - Update logstash version to 1.2.2
