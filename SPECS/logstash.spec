@@ -55,18 +55,16 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{plugindir}/inputs
 %{__mkdir} -p %{buildroot}%{plugindir}/filters
 %{__mkdir} -p %{buildroot}%{plugindir}/outputs
-# This is needed because Logstash will complain if there are no *.rb
-# files in its Plugin directory
+# This is needed because Logstash will complain if there are no *.rb files in its Plugin directory
 /bin/echo "Dummy file due to https://logstash.jira.com/browse/LOGSTASH-1555" >  %{buildroot}%{plugindir}/inputs/dummy.rb
 
 # Wrapper script
 %{__mkdir} -p %{buildroot}%{_bindir}
 %{__install} -m 755 %{SOURCE1} %{buildroot}%{bindir}/%{name}
-
 %{__sed} -i \
-   -e "s|@@@NAME@@@|%{name}|g" \
-   -e "s|@@@JARPATH@@@|%{jarpath}|g" \
-   %{buildroot}%{bindir}/%{name}
+  -e "s|@@@NAME@@@|%{name}|g" \
+  -e "s|@@@JARPATH@@@|%{jarpath}|g" \
+  %{buildroot}%{bindir}/%{name}
 
 # Logs
 %{__mkdir} -p %{buildroot}%{logdir}
@@ -83,21 +81,21 @@ rm -rf $RPM_BUILD_ROOT
 
 # Using _datadir for PLUGINDIR because logstash expects a structure like logstash/{inputs,filters,outputs}
 %{__sed} -i \
-   -e "s|@@@NAME@@@|%{name}|g" \
-   -e "s|@@@DAEMON@@@|%{bindir}|g" \
-   -e "s|@@@CONFDIR@@@|%{confdir}|g" \
-   -e "s|@@@LOCKFILE@@@|%{lockfile}|g" \
-   -e "s|@@@LOGDIR@@@|%{logdir}|g" \
-   -e "s|@@@PIDDIR@@@|%{piddir}|g" \
-   -e "s|@@@PLUGINDIR@@@|%{_datadir}|g" \
-   %{buildroot}%{_initddir}/%{name}
+  -e "s|@@@NAME@@@|%{name}|g" \
+  -e "s|@@@DAEMON@@@|%{bindir}|g" \
+  -e "s|@@@CONFDIR@@@|%{confdir}|g" \
+  -e "s|@@@LOCKFILE@@@|%{lockfile}|g" \
+  -e "s|@@@LOGDIR@@@|%{logdir}|g" \
+  -e "s|@@@PIDDIR@@@|%{piddir}|g" \
+  -e "s|@@@PLUGINDIR@@@|%{_datadir}|g" \
+  %{buildroot}%{_initddir}/%{name}
 
 %{__sed} -i \
-   -e "s|@@@NAME@@@|%{name}|g" \
-   -e "s|@@@CONFDIR@@@|%{confdir}|g" \
-   -e "s|@@@LOGDIR@@@|%{logdir}|g" \
-   -e "s|@@@PLUGINDIR@@@|%{_datadir}|g" \
-   %{buildroot}%{sysconfigdir}/%{name}
+  -e "s|@@@NAME@@@|%{name}|g" \
+  -e "s|@@@CONFDIR@@@|%{confdir}|g" \
+  -e "s|@@@LOGDIR@@@|%{logdir}|g" \
+  -e "s|@@@PLUGINDIR@@@|%{_datadir}|g" \
+  %{buildroot}%{sysconfigdir}/%{name}
 
 # Create Home directory
 #   See https://github.com/lfrancke/logstash-rpm/issues/5
@@ -106,13 +104,12 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 # create logstash group
 if ! getent group logstash >/dev/null; then
-        groupadd -r logstash
+  groupadd -r logstash
 fi
 
 # create logstash user
 if ! getent passwd logstash >/dev/null; then
-        useradd -r -g logstash -d %{_javadir}/%{name} \
-            -s /sbin/nologin -c "You know, for search" logstash
+  useradd -r -g logstash -d %{homedir} -s /sbin/nologin -c "Logstash service user" logstash
 fi
 
 %post
